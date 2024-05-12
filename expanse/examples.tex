@@ -1,0 +1,47 @@
+\documentclass[fontsize=9pt,DIV=27]{scrbook}
+
+\input{common}
+\input{shapes}
+\input{colors}
+\input{lengths}
+
+\begin{document}
+
+\centering
+
+\begin{Form}
+
+\begin{tikzpicture}
+  \pic (conditions) {header={Basic types}{10cm}{1cm}};
+  \pic[below = of conditions-sw] (conditions) {empty box={8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {empty box};
+  \pic[below = of conditions-sw] (conditions) {filled box={8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {filled box};
+  \pic[below = of conditions-sw] (conditions) {empty decorated box={8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {empty decorated box};
+  \pic[below = of conditions-sw] (conditions) {filled decorated box={8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {filled decorated box};
+  \pic[below = of conditions-sw] (conditions) {empty decorated box variant={8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {empty decorated box variant};
+  \pic[below = of conditions-sw] (conditions) {half decorated box={8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {half decorated box};
+  \pic[below = of conditions-sw] (conditions) {inverted textbox={Conditions}{8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {inverted textbox};
+  \pic[below = of conditions-sw] (conditions) {inverted decorated textbox={Conditions}{8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {inverted decorated textbox};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \pic (conditions) {header={Composite types}{10cm}{1cm}};
+  \pic[below = of conditions-sw] (conditions) {header={Conditions}{8cm}{1cm}};
+  \node[right = of conditions-se, anchor=south west] {header};
+  \pic[below = of conditions-sw] (conditions) {textfield={label=origin font size=8pt 2.2cm/1cm}};
+  \node[right = of conditions-se, anchor=south west] {textfield};
+  \pic[below = 1cm of conditions-sw] (conditions) {checkbox={condition}};
+  \node[right = 1cm of conditions-e, anchor=west] {checkbox};
+  \pic[below = of conditions-sw] (conditions) {attribute={Accuracy}};
+  \node[right = of conditions-e, anchor=south west] {attribute};
+\end{tikzpicture}
+
+\end{Form}
+\end{document}

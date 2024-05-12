@@ -1,0 +1,234 @@
+% basic shapes
+\tikzset{ pics/coordinates/.style n args={2}{
+    code={%
+      \coordinate (-nw) at (0,0);
+      \coordinate (-sw) at (0,-#2);
+      \coordinate (-se) at (#1,-#2);
+      \coordinate (-ne) at (#1,0);
+      \coordinate (-center) at (0.5*#1,-0.5*#2);
+      \coordinate (-e) at (#1, -0.5*#2);
+      \coordinate (-w) at (0, -0.5*#2);
+      \coordinate (-n) at (0.5*#1, 0);
+      \coordinate (-s) at (0.5*#1, -#2);
+    }
+  }
+}
+\tikzset{ pics/empty box/.style n args={2}{
+    code={%
+      \pic{coordinates={#1}{#2}};
+      \filldraw[white,draw=firstcolor] (-sw) rectangle (-ne);
+    }
+  }
+}
+\tikzset{ pics/filled box/.style n args={2}{
+    code={%
+      \pic{coordinates={#1}{#2}};
+      \filldraw[firstcolor] (-sw) rectangle (-ne);
+    }
+  }
+}
+\tikzset{ pics/empty decorated box/.style n args={2}{
+    code={%
+      \pic{coordinates={#1}{#2}};
+      \draw[firstcolor] (-se) --
+        (-sw) --
+        (-nw) --
+        ([xshift=-\cornercut]-ne) --
+        ([yshift=-\cornercut]-ne) --
+        cycle;
+    }
+  }
+}
+\tikzset{ pics/half decorated box/.style n args={2}{
+    code={%
+      \pic{coordinates={#1}{#2}};
+      \draw[firstcolor]  (-se) --
+        ([xshift=\cornercut]-sw) --
+        ([yshift=\cornercut]-sw) --
+        (-nw);
+    }
+  }
+}
+\tikzset{ pics/empty decorated box variant/.style n args={2}{
+    code={%
+      \pic{coordinates={#1}{#2}};
+      \draw[firstcolor] (-sw) --
+        ([yshift=-\cornercut]-nw) --
+        ([xshift= \cornercut]-nw) --
+        (-ne) --
+        ([yshift=\cornercut]-se) --
+        ([xshift=-\cornercut]-se) --
+        cycle;
+    }
+  }
+}
+\tikzset{ pics/filled decorated box/.style n args={2}{
+    code={%
+      \pic{coordinates={#1}{#2}};
+      \filldraw[firstcolor] (-se) --
+        ([xshift=\cornercut]-sw) --
+        ([yshift=\cornercut]-sw) --
+        (-nw) --
+        ([xshift=-\cornercut]-ne) --
+        ([yshift=-\cornercut]-ne) --
+        cycle;
+    }
+  }
+}
+\tikzset{ pics/inverted textbox/.style n args={3}{
+    code={%
+      \pic{filled box={#2}{#3}};
+      \node[anchor=center] at (-center) {\color{white}#1};
+    }
+  }
+}
+\tikzset{ pics/inverted decorated textbox/.style n args={3}{
+    code={%
+      \pic{filled decorated box={#2}{#3}};
+      \node[anchor=center] at (-center) {\color{white}#1};
+    }
+  }
+}
+
+
+
+\tikzset{ pics/checkbox/.style n args={1}{
+    code={%
+      \pic[xshift=-\shadowshift,yshift=-\shadowshift]{filled box={\cslineheight}{\cslineheight}};
+      \pic{empty box={\cslineheight}{\cslineheight}};
+      \node[anchor=center] (form) at (-center) {
+        \stepcounter{silly}
+        \CheckBox[
+          name=checkbox #1 \thesilly,
+          height=\cslineheight,
+          width=\cslineheight,
+          bordercolor=,
+          borderwidth=0.06mm,
+          checkboxsymbol=X
+          ]{}
+      };
+      \node[right = \veryshort of form] (condition) at (-center) {\color{firstcolor}\tiny\MakeUppercase{#1}};
+
+      \pic {coordinates={\attributewidth+2*\nodedistance}{\cslineheight}};
+    }
+  }
+}
+
+\tikzset{ pics/header/.style n args={3}{
+    code={%
+      \pic{inverted decorated textbox={\MakeUppercase{#1}}{#2}{#3}};
+    }
+  }
+}
+
+\tikzset{
+  pics/textfield/.style args={label=#1 font size=#2 #3/#4}{
+    code={%
+      \pic {empty decorated box={#3}{#4}};
+      \node[anchor=south west, xshift = -\short] at (-sw) {
+        \setlength{\currentFieldWith}{\dimexpr(#3 - \short - \short)\relax}
+        \setlength{\currentFieldHeight}{\dimexpr(#4 - \short)\relax}
+        \centering
+        \TextField[
+          name=#1,
+          height=\currentFieldHeight,
+          width=\currentFieldWith,
+          bordercolor=1 0 0,
+          borderwidth=0.0mm,
+          align=0,
+          charsize=#2]{}
+      };
+      \node[
+        below right = 0mm and \short of -sw,
+        fill=firstcolor,
+        minimum height=2*\short,
+        anchor=north west
+        ] {
+        \color{white}\tiny\MakeUppercase{#1}
+      };
+      \pic {coordinates={#3}{#4-3*\short}};
+    }
+  }
+}
+
+\tikzset{ pics/derivative/.style n args={1}{
+    code={%
+      \pic {coordinates={\lineheight}{\lineheight-\short}};
+      \pic (box) {empty decorated box variant={\lineheight}{\lineheight}};
+      \node[anchor = south east, minimum height = \short, inner sep=0, outer sep=0, text depth=0]
+      at (box-ne) {\color{firstcolor}\tiny#1};
+      \node[anchor=south west, xshift = -\short, yshift = \short] at (-sw) {
+        \setlength{\currentFieldWith}{\dimexpr(\lineheight - \short - \veryshort)\relax}
+        \setlength{\currentFieldHeight}{\dimexpr(\lineheight - \short - \veryshort - \veryshort)\relax}
+        \centering
+        \TextField[
+          name=derivative #1,
+          height=\currentFieldHeight,
+          width=\currentFieldWith,
+          bordercolor=1 0 0,
+          borderwidth=0.0mm,
+          align=1,
+          charsize=12pt]{}
+      };
+    }
+  }
+}
+
+\tikzset{ pics/attribute/.style n args={1}{
+    code={%
+      \pic {coordinates={\attributelabelwidth + \attributewidth}{3*\lineheight}};
+      \pic (label) {inverted textbox={#1}{\attributelabelwidth}{\lineheight}};
+      \pic[right = 0mm of label-ne] (field) {empty decorated box={\attributewidth}{\lineheight}};
+      \draw[draw=firstcolor] (label-sw) -- +(0, -2*\lineheight);
+      \draw[draw=firstcolor] (field-se) -- +(0, -2*\lineheight);
+      \node[anchor=south west, xshift = -\short, yshift = 0] at (field-sw) {
+        \setlength{\currentFieldWith}{\dimexpr(\lineheight - \short - \veryshort)\relax}
+        \setlength{\currentFieldHeight}{\dimexpr(\lineheight - \short - \veryshort - \veryshort)\relax}
+        \centering
+        \TextField[
+          name=attribute #1,
+          height=\currentFieldHeight,
+          width=\currentFieldWith,
+          bordercolor=1 0 0,
+          borderwidth=0.0mm,
+          align=1,
+          charsize=12pt]{}
+      };
+      \node[below=\veryshort of label-sw, anchor=north west, xshift = -\short, yshift = 0] {
+        \setlength{\currentFieldWith}{\dimexpr(\attributelabelwidth + \attributewidth - \short - \veryshort)\relax}
+        \setlength{\currentFieldHeight}{\dimexpr(\lineheight + \lineheight - \short - \veryshort - \veryshort)\relax}
+        \centering
+        \TextField[
+          name=focus #1,
+          height=\currentFieldHeight,
+          width=\currentFieldWith,
+          multiline=true,
+          bordercolor=1 0 0,
+          borderwidth=0.0mm,
+          align=0,
+          charsize=10pt]{}
+      };
+    }
+  }
+}
+
+\tikzset{ pics/half decorated textfield/.style n args={1}{
+    code={%
+      \pic{half decorated box={#1}{0.4*\lineheight}};
+      \node[anchor=south west, xshift = -\short, yshift = - \short * 2] {
+        \setlength{\currentFieldWith}{\dimexpr(#1 - \short - \veryshort)\relax}
+        \setlength{\currentFieldHeight}{\dimexpr (\short + \short)  \relax}
+        \centering
+        \stepcounter{silly}
+        \TextField[
+          name=free \thesilly,
+          height=\currentFieldHeight,
+          width=\currentFieldWith,
+          bordercolor=1 0 0,
+          borderwidth=0.0mm,
+          align=0,
+          charsize=10pt]{}
+      };
+    }
+  }
+}

@@ -1,0 +1,133 @@
+\documentclass[fontsize=9pt,DIV=27]{scrbook}
+
+\input{common}
+\input{shapes}
+\input{colors}
+\input{lengths}
+
+\begin{document}
+
+\centering
+
+\begin{Form}
+
+\begin{tikzpicture}
+  % character generation
+  % %%%%%%%%%%%%%%%%%%%%
+  \pic (name) {textfield={label=name font size=12pt \namefield/\lineheight}};
+  \pic[right=of name-ne]       (origin)     {textfield={label=origin     font size=8pt \the\flufffield/\lineheight}};
+  \pic[right=of origin-ne]     (class)      {textfield={label=class      font size=8pt \the\flufffield/\lineheight}};
+  \pic[right=of class-ne]      (background) {textfield={label=background font size=8pt \the\flufffield/\lineheight}};
+  \pic[right=of background-ne] (profession) {textfield={label=profession font size=8pt \the\flufffield/\lineheight}};
+  \pic[right=of profession-ne] (drive)      {textfield={label=drive      font size=8pt \the\flufffield/\lineheight}};
+
+  % derivative attributes, fortune points and drive stage
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \pic[below=of profession-sw]  (speed)           {derivative={speed}};
+  \pic[right=of speed-ne]       (defense)         {derivative={defense}};
+  \pic[right=of defense-ne]     (toughness)       {derivative={toughness}};
+  \pic[right=of toughness-ne]   (fortunepoints)  {derivative={fortune}};
+
+  \pic[below=of speed-sw]   (armor)    {derivative={armor}};
+  \pic[right=of armor-ne]   (penalty)  {derivative={penalty}};
+  \pic[right=of penalty-ne] (income)   {derivative={income}};
+  \pic[right=of income-ne]  (level)    {derivative={level}};
+
+  \pic[right= 2*\short of fortunepoints-ne] (fp) {checkbox={}};
+  \draw (fortunepoints-e) -- (fp-w);
+  \foreach \Y in {0, ..., 30}
+  {
+    \pic[below=of fp-sw] (fp) {checkbox={}};
+  }
+
+  \pic[below=of armor-sw]     (honorific)  {textfield={label=Honorific font size=8pt 4.6cm/\lineheight}};
+  \pic[below=of honorific-sw] (membership) {textfield={label=membership font size=8pt 4.6cm/\lineheight}};
+
+  % Conditions
+  % %%%%%%%%%%
+  \pic[below=of membership-sw] (conditions) {header={Conditions}{4.6cm}{0.6cm}};
+
+  \pic[below=of conditions-sw] (injured)       {checkbox={injured}};
+  \pic[right=of injured-ne]    (wounded)       {checkbox={wounded}};
+  \pic[right=of wounded-ne]    (dying)         {checkbox={dying}};
+
+  \pic[below=of injured-sw]   (hindered)      {checkbox={hindered}};
+  \pic[right=of hindered-ne]  (restrained)    {checkbox={restrained}};
+  \pic[right=of restrained-ne] (prone)         {checkbox={prone}};
+
+  \pic[below=of hindered-sw]  (fatigued)      {checkbox={fatigued}};
+  \pic[right=of fatigued-ne]  (exhausted)     {checkbox={exhausted}};
+  \pic[right=of exhausted-ne] (helpless)      {checkbox={helpless}};
+
+  \pic[below=of fatigued-sw] (blinded)       {checkbox={blinded}};
+  \pic[right=of blinded-ne]  (deafened)      {checkbox={deafened}};
+  \pic[right=of deafened-ne] (free-falling)  {checkbox={free-falling}};
+
+  % Main attributes
+  % %%%%%%%%%%%%%%%
+  \pic[below= of name-sw] (accuracy) {attribute={Accuracy}};
+  \pic[right= of accuracy-ne] (communication) {attribute={Communication}};
+  \pic[right= of communication-ne] (constitution) {attribute={Constitution}};
+
+  \pic[below= of accuracy-sw] (dexterity) {attribute={Dexterity}};
+  \pic[right= of dexterity-ne] (fighting) {attribute={Fighting}};
+  \pic[right= of fighting-ne] (intelligence) {attribute={Intelligence}};
+
+  \pic[below= of dexterity-sw] (perception) {attribute={Perception}};
+  \pic[right= of perception-ne] (strength) {attribute={Strength}};
+  \pic[right= of strength-ne] (willpower) {attribute={Willpower}};
+
+  % Talents
+  % %%%%%%%
+  \pic[below=of perception-sw] (talent) {header={Talents \& Specializations}{8cm}{0.6*\lineheight}};
+  \pic[below=of talent-sw] (name)        {header={Name}{\namefield}{0.4*\lineheight}};
+  \pic[right=of name-ne]   (level)       {header={LVL}{\attributewidth+2*\nodedistance}{0.4*\lineheight}};
+  \pic[right=of level-ne]  (description) {header={Description}{4*\flufffield+4*\nodedistance}{0.4*\lineheight}};
+  \foreach \Y in {0, ..., 7}
+  {
+  \pic[below=of name-sw]  (name)        {half decorated textfield={\namefield}};
+  \pic[right=of name-ne]  (level)       {half decorated textfield={\attributewidth+\nodedistance*2}};
+  \pic[right=of level-ne] (description) {half decorated textfield={\flufffield*4+\nodedistance*4}};
+  }
+
+  % Weapons
+  % %%%%%%%
+  \pic[below=of name-sw]   (weapons)     {header={Weapons}{8cm}{0.6*\lineheight}};
+  \pic[below=of weapons-sw] (name)       {header={Weapon}{2*\flufffield}{0.4*\lineheight}};
+  \pic[right=of name-ne]   (level)       {header={Roll}  {\flufffield}{0.4*\lineheight}};
+  \pic[right=of level-ne]  (description) {header={DMG}   {\flufffield}{0.4*\lineheight}};
+  \foreach \Y in {0, ..., 3}
+  {
+  \pic[below=of name-sw]  (name)        {half decorated textfield={\flufffield * 2}};
+  \pic[right=of name-ne]  (level)       {half decorated textfield={\flufffield}};
+  \pic[right=of level-ne] (description) {half decorated textfield={\flufffield}};
+  }
+
+  % Inventory & Notes
+  % %%%%%%%%%%%%%%%%%
+  \pic[below=of name-sw]   (name)     {header={Inventory \& Notes}{8cm}{0.6*\lineheight}};
+  \foreach \Y in {0, ..., 6}
+  {
+  \pic[below=of name-sw]  (name)                {half decorated textfield={\flufffield*2}};
+  \pic[right=of name-ne]  (level)               {half decorated textfield={\flufffield*2}};
+  \pic[right=of level-ne] (description)         {half decorated textfield={\flufffield*2}};
+  \pic[right=of description-ne] (description)   {half decorated textfield={\flufffield*2}};
+  }
+
+  % Relations
+  % %%%%%%%%%
+  \pic[right=4*\flufffield + 3*\nodedistance of weapons-nw]   (relations) {header={Relationships}{8cm}{0.6*\lineheight}};
+  \pic[below=of relations-sw] (name)      {header={Name}{\flufffield}{0.4*\lineheight}};
+  \pic[right=of name-ne]   (level)        {header={Rang}{\flufffield}{0.4*\lineheight}};
+  \pic[right=of level-ne]  (description)  {header={Description}{2*\flufffield}{0.4*\lineheight}};
+  \foreach \Y in {0, ..., 3}
+  {
+  \pic[below=of name-sw]  (name)          {half decorated textfield={\flufffield}};
+  \pic[right=of name-ne]  (level)         {half decorated textfield={\flufffield}};
+  \pic[right=of level-ne] (description)   {half decorated textfield={\flufffield*2}};
+  }
+
+\end{tikzpicture}
+
+\end{Form}
+\end{document}

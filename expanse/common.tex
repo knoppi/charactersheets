@@ -1,0 +1,63 @@
+% Packages{{{
+\usepackage[cmyk,table,usenames,dvipsnames]{xcolor} % load early to avoid name clash
+
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage[a4paper, top=1cm, bottom=0cm, right=5mm, left=5mm, portrait]{geometry}
+%\usepackage{background}
+%\usepackage[width=213truemm,height=304truemm,center]{crop}
+% }}}
+
+% generic options to packages{{{
+
+% options to hyperref  {{{
+\hypersetup{
+  bookmarks=true,
+	pdfpagelayout=TwoPageRight,
+	pdfstartview=Fit,
+	pdfpagemode=UseOutlines,
+	pdfprintscaling=None,
+	colorlinks=false,
+	hidelinks=true,
+	bookmarksnumbered=false,
+	bookmarksopen=false
+}
+% }}}
+
+% options to tikslibrary{{{
+\usetikzlibrary{positioning}
+\usetikzlibrary{quotes}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{fit}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{fadings}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+% }}}
+
+% headers and footers{{{
+% %%%%%%%%%%%%%%%%%%%
+
+\usepackage[headsepline,footsepline]{scrlayer-scrpage}
+\clearpairofpagestyles
+\ofoot{}
+
+\addtokomafont{pagenumber}{\color{primary}\bfseries}
+\renewcommand*\pagemark{{\usekomafont{pagenumber}\thepage}}
+\addtokomafont{pageheadfoot}{\upshape}
+\setheadsepline{0pt}[]
+\setfootsepline{0pt}[]
+% }}}
+
+% select font
+\setmainfont{Georgia}
+
+\newcounter{silly}
+\setcounter{silly}{1}
+
+% vim: set nowrap:
+% vim: set foldmethod=marker:

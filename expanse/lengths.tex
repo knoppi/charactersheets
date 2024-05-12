@@ -1,0 +1,45 @@
+% lengths
+
+\newcommand{\short}{.2cm}
+\newcommand{\veryshort}{.2mm}
+
+\newcommand{\cornercut}{\short} % how much is missing at the corner of decorated inverted textfields
+
+\newlength{\cslineheight}
+\setlength{\cslineheight}{\short}
+\addtolength{\cslineheight}{-\veryshort}
+\newcommand{\shadowshift}{\veryshort}
+\newcommand{\nodedistance}{\short}
+
+\newlength{\lineheight}
+\setlength{\lineheight}{1cm}
+\newcommand{\attributewidth}{1cm}
+
+\newlength{\attributelabelwidth}
+\addtolength{\attributelabelwidth}{\attributewidth}
+\addtolength{\attributelabelwidth}{\attributewidth}
+\addtolength{\attributelabelwidth}{\attributewidth}
+\addtolength{\attributelabelwidth}{\nodedistance}
+\addtolength{\attributelabelwidth}{\nodedistance}
+
+\newlength{\flufffield}
+\addtolength{\flufffield}{\attributewidth}
+\addtolength{\flufffield}{\attributewidth}
+\addtolength{\flufffield}{\nodedistance}
+
+\newlength{\namefield}
+\addtolength{\namefield}{\flufffield}
+\addtolength{\namefield}{\flufffield}
+\addtolength{\namefield}{\flufffield}
+\addtolength{\namefield}{-\nodedistance}
+
+% yet unused
+\newcommand{\picshift}{-1mm}
+\newcommand{\textfieldsize}{1cm}
+\newlength{\currentFieldWith}
+\newlength{\currentFieldHeight}
+\setlength{\baselineskip}{10pt}
+
+\tikzset{
+  node distance=\nodedistance,
+}
